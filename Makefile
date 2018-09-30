@@ -12,6 +12,7 @@ CXXFLAGS := -O3
 EXE_DIR := bin/
 EXECUTABLE := $(EXE_DIR)ssrt
 SRC_FILES := $(wildcard src/*.cpp) \
+             $(wildcard src/model/*.cpp) \
              src/user_models/$(PROBLEM_FILE)
 OBJ_DIR := obj/
 OBJ_FILES := $(addprefix $(OBJ_DIR),$(notdir $(SRC_FILES:.cpp=.o)))
