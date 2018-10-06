@@ -3,17 +3,17 @@ job = circular_image
 output_file = test.out
 
 <camera>
-inc       = 0
+inc       = 45
 Nr        = 10
 Nphi      = 5
 Rin       = 10
 Rout      = 99
 
 <model>
-ifsca     = 0
+ifsca     = 1
 Bflag     = 0
 
 <dust>
 kappa_ext = 1
-albedo    = 0
-p0        = 0.02
+albedo    = 0.1
+p0        = 0.0
