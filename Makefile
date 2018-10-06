@@ -5,7 +5,7 @@ PROBLEM_FILE = IRS.cpp
 # General compiler specifications
 
 CXX := g++
-CXXFLAGS := -O3
+CXXFLAGS := -O3 -fopenmp
 
 # Preliminary definitions
 
@@ -13,6 +13,7 @@ EXE_DIR := bin/
 EXECUTABLE := $(EXE_DIR)ssrt
 SRC_FILES := $(wildcard src/*.cpp) \
              $(wildcard src/model/*.cpp) \
+             $(wildcard src/io/*.cpp) \
              src/user_models/$(PROBLEM_FILE)
 OBJ_DIR := obj/
 OBJ_FILES := $(addprefix $(OBJ_DIR),$(notdir $(SRC_FILES:.cpp=.o)))

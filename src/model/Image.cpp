@@ -55,25 +55,41 @@ void model::Image_circular(double inc, int Nr, int Nph, double Rin, double Rout,
   }
 
   double nx=sin(inc), ny=0, nz=cos(inc);
-  double x,y,z;
-  Vector S;
-  double R, phi;
   Fout<<Nr<<" "<<Nph<<std::endl;
   Fout<<inc<<std::endl;
   Fout<<"#R(AU)\tphi(rad)\tI\tQ\tU\tV"<<std::endl;
+
+  double mR[Nr][Nph], mphi[Nr][Nph];
+  double mS0[Nr][Nph], mS1[Nr][Nph], mS2[Nr][Nph], mS3[Nr][Nph];
+
+  #pragma omp parallel for
   for (int i=0; i<Nr; i++){
+    Vector S;
+    double R, phi;
+    double x,y,z;
     if (Nr == 1) R = Rin;
     else R = Rin*exp( log(Rout/Rin)*i/(Nr-1) );
     for (int j=0; j<Nph; j++){
       //phi = 2*PI*j/Nph; // Full 2 PI
       phi = PI*j/(Nph-1); // Half circle: need more tension in data reduction
+
+      mR[i][j] = R;
+      mphi[i][j] = phi;
+
       std::cout<<"Working on: "<<R/AU<<" "<<phi/PI*180<<std::endl;
       x=R*cos(phi); y=R*sin(phi); z=0;
       getSurface(x, y, z, nx, ny, nz);
       S = this->Integrate(x,y,z, nx,ny,nz, ifsca);
-      Fout<<R/AU<<" "<<phi<<" "<<S[0]<<" "<<S[1]<<" "<<S[2]<<" "<<S[3]<<std::endl;
+
+      mS0[i][j]=S[0]; mS1[i][j]=S[1]; mS2[i][j]=S[2]; mS3[i][j]=S[3]; 
     }
   }
+
+  for (int i=0; i<Nr; i++){
+  for (int j=0; j<Nph; j++){
+    Fout<<mR[i][j]/AU<<" "<<mphi[i][j]<<" "
+        <<mS0[i][j]<<" "<<mS1[i][j]<<" "<<mS2[i][j]<<" "<<mS3[i][j]<<std::endl;
+  }}
   Fout.close();
 }
 
