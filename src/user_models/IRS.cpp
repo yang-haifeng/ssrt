@@ -2,15 +2,23 @@
 #include "../model/model.h"
 
 static const double Rmax = 100*AU;
+static int Bflag;
 
 double MyDensity(double x, double y, double z);
 Vector3D MyBfield(double x, double y, double z);
 
-void model::init_user_model(){
+void model::init_user_model(ParameterInput* pin){
   Density_ = MyDensity;
   Bfield_ = MyBfield;
 
-  P0 = 0.05;
+  kappa_ext = pin->GetOrAddReal("dust", "kappa_ext", 9.2622e-1);
+  double albedo = pin->GetOrAddReal("dust", "albedo", 3.2498e-16/7.9751e-16);
+  kappa_sca = kappa_ext * albedo;
+  kappa_abs = kappa_ext - kappa_sca;
+
+  P0 = pin->GetOrAddReal("dust", "p0", 0.05);;
+
+  Bflag = pin->GetOrAddInteger("model", "Bflag", 0);
 }
 
 bool model::reachBoundary(double x, double y, double z){
@@ -23,7 +31,8 @@ bool model::reachBoundary(double x, double y, double z){
 
 Vector3D MyBfield(double x, double y, double z){
   Vector3D B;
-  B[0] = 1; B[1] = 0; B[2] = 0;
+  B[0] = 0; B[1] = 0; B[2] = 0;
+  B[Bflag] = 1.;
 
   double phi0 = atan2(y,x);
   double tBx, tBy;

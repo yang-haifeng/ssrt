@@ -7,7 +7,7 @@ Vector3D MyBfield(double x, double y, double z);
 
 static const double Rmax=100*AU;
 
-model::model(){
+model::model(ParameterInput* pin){
   Density_ = MyDensity;
   BnuT_ = MyBnuT;
   Bfield_ = MyBfield;
@@ -18,10 +18,10 @@ model::model(){
 
   P0 = 0.0;
 
-  init_user_model();
+  init_user_model(pin);
 }
 
-void __attribute__((weak)) model::init_user_model(){return;}
+void __attribute__((weak)) model::init_user_model(ParameterInput* pin){return;}
 
 double __attribute__((weak)) MyDensity(double x, double y, double z){
   double theta = atan(z/sqrt(x*x+y*y));

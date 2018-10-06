@@ -4,6 +4,8 @@
 #include <string>
 #include "../defs.h"
 #include "../utils.h"
+#include "../io/parameter_input.h"
+#include "../io/io_wrapper.h"
 
 class model{
   protected:
@@ -11,7 +13,7 @@ class model{
     double P0;
 
   public:
-    model();
+    model(ParameterInput* pin);
     ~model();
 
     FieldFunction_ Density_;
@@ -30,7 +32,7 @@ class model{
     //void Image_circular(double inc, int Nr, int Nph, double Rin, double Rout, bool ifsca=true, bool fAppend=false, std::string fname="image.out");
     void Image_circular(double inc, int Nr, int Nph, double Rin, double Rout, bool ifsca=true, bool fAppend=false, std::string fname="image.out");
 
-    void init_user_model();
+    void init_user_model(ParameterInput* pin);
 };
 
 #endif
