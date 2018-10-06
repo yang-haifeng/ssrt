@@ -1,1 +1,43 @@
 Radiative Transfer code with single scattering approximation
+Author: Haifeng Yang 
+Email:  hfyangpku@gmail.com
+
+To compile, type
+
+  make
+
+You may put a perl script in $HOME/bin named ssrt which will run bin/ssrt with 
+any parameters supplied by 
+
+  ./install_perl
+
+To run, type
+
+  ssrt parameterfile.par
+
+(or ./ssrt parameterfile.par if you choose to copy binary into current working
+directory)
+
+To clean up, type
+
+  make clean
+
+This will remove all files under obj and the binary file bin/ssrt.
+
+For user defined models, go to src/user_models. Create and modify any cpp file.
+You may refer to any existing cpp files there or refer to src/model/model.cpp to
+see what you can do with this file. 
+
+Remember to change the Makefile correspondingly for any user defined models. To
+do so, modify the filename after "PROBLEM_FILE = " in line 3. Note that the 
+suffix cpp is mendatory. 
+
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+Below starts patch notes:
+
+Oct. 6
+- Add openmp supported parallelization in circular imaging
+
+Oct. 5
+- Add parameter_input class and io_wrapper class. (Borrowed from Athena++)
+- Add example input file in inputs/
