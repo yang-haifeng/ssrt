@@ -6,8 +6,10 @@ To compile, type
 
   make
 
-You may put a perl script in $HOME/bin named ssrt which will run bin/ssrt with 
-any parameters supplied by 
+Note: feel free to comment -fopenmp flag in Make file if you fail to compile 
+with "error: unsupported option '-fopenmp'".
+You may put a perl script in $HOME/bin named ssrt, which will run bin/ssrt with 
+any parameters supplied, by 
 
   ./install_perl
 
