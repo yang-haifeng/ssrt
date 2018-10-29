@@ -1,5 +1,5 @@
-#include "model.h"
-#include <iostream>
+#include "../model.h"
+#include "dust.h"
 
 double product(double e1[3], double M[3][3], double e2[3]);
 static const bool sphFlag=true;
@@ -35,6 +35,7 @@ Matrix model::calcZMatrix(double x, double y, double z,
 
   double S11, S12, S21, S22;
   if (sphFlag==false){
+    double P0 = pdust->p0;
     // Here's where electrostatic approximation comes in:
     // Sij = ei * A * ej;
     // A = diag{ a1, a1, a3} in grain frame.
@@ -90,7 +91,7 @@ Matrix model::calcZMatrix(double x, double y, double z,
   M[3*4+2] = 0.;
   M[3*4+3] = (S22*S11 - S12*S21);
 
-  M *= 3./8.*PI*kappa_sca;
+  M *= 3./8.*PI*pdust->kappa_sca;
 
   return M;
 }

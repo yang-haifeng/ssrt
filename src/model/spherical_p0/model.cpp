@@ -1,5 +1,6 @@
 #include <cmath>
-#include "model.h"
+#include "../model.h"
+#include "dust.h"
 
 double MyDensity(double x, double y, double z);
 double MyBnuT(double x, double y, double z);
@@ -12,13 +13,14 @@ model::model(ParameterInput* pin){
   BnuT_ = MyBnuT;
   Bfield_ = MyBfield;
 
-  kappa_abs = 1.;
-  kappa_sca = 0.1;
-  kappa_ext = kappa_abs+kappa_sca;
-
-  P0 = 0.0;
+  pdust = new dust(pin);
+  kappa_ext = pin->GetReal("dust", "kappa_ext");
 
   init_user_model(pin);
+}
+
+model::~model(){
+  delete pdust;
 }
 
 void __attribute__((weak)) model::init_user_model(ParameterInput* pin){return;}

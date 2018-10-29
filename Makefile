@@ -1,6 +1,7 @@
 # Files for conditional compilation
 
 PROBLEM_FILE = IRS.cpp
+DUST_DIR = src/model/spherical_p0
 
 # General compiler specifications
 
@@ -13,6 +14,7 @@ EXE_DIR := bin/
 EXECUTABLE := $(EXE_DIR)ssrt
 SRC_FILES := $(wildcard src/*.cpp) \
              $(wildcard src/model/*.cpp) \
+             $(wildcard $(DUST_DIR)/*.cpp) \
              $(wildcard src/io/*.cpp) \
              src/user_models/$(PROBLEM_FILE)
 OBJ_DIR := obj/

@@ -11,13 +11,6 @@ void model::init_user_model(ParameterInput* pin){
   Density_ = MyDensity;
   Bfield_ = MyBfield;
 
-  kappa_ext = pin->GetOrAddReal("dust", "kappa_ext", 9.2622e-1);
-  double albedo = pin->GetOrAddReal("dust", "albedo", 3.2498e-16/7.9751e-16);
-  kappa_sca = kappa_ext * albedo;
-  kappa_abs = kappa_ext - kappa_sca;
-
-  P0 = pin->GetOrAddReal("dust", "p0", 0.05);;
-
   Bflag = pin->GetOrAddInteger("model", "Bflag", 0);
 }
 

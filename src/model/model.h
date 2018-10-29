@@ -7,13 +7,14 @@
 #include "../io/parameter_input.h"
 #include "../io/io_wrapper.h"
 
-class model{
-  protected:
-    double kappa_abs, kappa_sca, kappa_ext;
-    double P0;
+class dust;
 
+class model{
   public:
-    model(ParameterInput* pin);
+    dust * pdust;
+    double kappa_ext; // This is only a representative kappa_ext for truncation in Integrate.
+
+    explicit model(ParameterInput* pin);
     ~model();
 
     FieldFunction_ Density_;

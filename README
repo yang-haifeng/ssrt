@@ -37,6 +37,11 @@ suffix cpp is mendatory.
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 Below starts patch notes:
 
+Oct. 29
+- move dust related files to a sub-directory spherical_p0 under model. 
+  Now Makefile expect modification of DUST_DIR to choose dust model employed.
+  Expecting more sub-directories in the future.
+
 Oct. 6
 - Add openmp supported parallelization in circular imaging
 
