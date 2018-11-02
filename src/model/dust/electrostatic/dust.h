@@ -1,9 +1,9 @@
 #ifndef _DUST_H
 #define _DUST_H
 
-#include "../../io/parameter_input.h"
-#include "../../io/io_wrapper.h"
-#include "../../defs.h"
+#include "../../../io/parameter_input.h"
+#include "../../../io/io_wrapper.h"
+#include "../../../defs.h"
 #include <complex>
 
 class dust{

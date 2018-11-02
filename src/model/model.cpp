@@ -1,5 +1,5 @@
 #include <cmath>
-#include "../model.h"
+#include "model.h"
 #include "dust.h"
 
 double MyDensity(double x, double y, double z);

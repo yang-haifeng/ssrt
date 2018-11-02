@@ -1,5 +1,5 @@
+#include "../../model.h"
 #include "dust.h"
-#include "../model.h"
 
 Matrix model::calcExtinction(double x, double y, double z, double nx, double ny, double nz){
   double Bx, By, Bz;
@@ -17,11 +17,13 @@ Matrix model::calcExtinction(double x, double y, double z, double nx, double ny,
   double cosinc; // inclination angle with respect to B field
   cosinc = fabs(Bx*nx+By*ny+Bz*nz); 
 
-  std::complex<double> a1, a3; a1=pdust->a1; a3=pdust->a3;
+  double kappa_ext = pdust->kappa_ext;
+  double P0 = pdust->p0;
+
 //double Cep = kappa_ext;
 //double Cpp = 0;
-  double Cep = std::imag(a1+0.5*(a3-a1)*(1-cosinc*cosinc))* 4*PI*pdust->k / pdust->mass;
-  double Cpp = std::imag( 0.5*(a1-a3)*(1-cosinc*cosinc) ) * 4*PI*pdust->k / pdust->mass;
+  double Cep = kappa_ext + kappa_ext*P0*cosinc*cosinc;
+  double Cpp = kappa_ext * P0 * (1-cosinc*cosinc);
   double Ccpp = 0;
 
   double theta, phi;

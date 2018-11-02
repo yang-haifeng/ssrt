@@ -1,12 +1,12 @@
 # Files for conditional compilation
 
-PROBLEM_FILE = slab.cpp
-DUST_DIR = src/model/electrostatic
+PROBLEM_FILE = @PROBLEM_FILE@
+DUST_DIR = src/model/dust/@DUST_MODULE_PATH@
 
 # General compiler specifications
 
-CXX := g++
-CXXFLAGS := -O3 -fopenmp -I$(DUST_DIR)
+CXX := @COMPILER_COMMAND@
+CXXFLAGS := @COMPILER_FLAGS@ -I$(DUST_DIR)
 
 # Preliminary definitions
 

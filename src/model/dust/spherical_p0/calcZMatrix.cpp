@@ -1,4 +1,4 @@
-#include "../model.h"
+#include "../../model.h"
 #include "dust.h"
 
 double product(double e1[3], double M[3][3], double e2[3]);

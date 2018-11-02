@@ -40,9 +40,9 @@ Vector model::Integrate(double x0, double y0, double z0, double nx, double ny, d
         }
       }
     }
-  //if (ScaFlag)
-  //  result += T*Ssca*step*rho;
-  //else
+    if (ScaFlag)
+      result += T*Ssca*step*rho;
+    else
       result += T*(Sabs+Ssca)*step*rho;
     T -= T*Mext*step*rho;
     x-=step*nx; y-=step*ny; z-=step*nz;

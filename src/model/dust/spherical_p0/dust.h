@@ -1,8 +1,8 @@
 #ifndef _DUST_H
 #define _DUST_H
 
-#include "../../io/parameter_input.h"
-#include "../../io/io_wrapper.h"
+#include "../../../io/parameter_input.h"
+#include "../../../io/io_wrapper.h"
 
 class dust{
   public:
