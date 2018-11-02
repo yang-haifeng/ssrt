@@ -93,6 +93,30 @@ void model::Image_circular(double inc, int Nr, int Nph, double Rin, double Rout,
   Fout.close();
 }
 
+void model::OnePointImage(double inc, double x0, double y0, double z0, bool ifsca, std::string fName){
+  std::ofstream Fout;
+  Fout.open(fName.c_str());
+
+  double nx=sin(inc), ny=0, nz=cos(inc);
+  double x=x0,y=y0,z=z0;
+  Vector S;
+  bool status;
+  status = getSurface(x, y, z, nx, ny, nz);
+  if (!status) { //status==true means the point is out of the domain.
+    std::cout<<"WARNING in OnePointImage: requested point is outside of calculation domain!"<<std::endl;
+    Fout<<0.<<" "<<0.<<" "<<0.<<" "<<0.<<std::endl; // write all 0 here.
+    std::cout<<0.<<" "<<0.<<" "<<0.<<" "<<0.<<std::endl; // write all 0 here.
+    Fout.close();
+    return;
+  }
+
+  S = this->Integrate(x,y,z, nx,ny,nz, ifsca);
+
+  Fout<<S[0]<<" "<<S[1]<<" "<<S[2]<<" "<<S[3]<<std::endl;
+  std::cout<<S[0]<<" "<<S[1]<<" "<<S[2]<<" "<<S[3]<<std::endl;
+  Fout.close();
+}
+
 // getSurface function starts from the point (x, y, z) and moves in the direction
 // (nx, ny, nz), until reaches the edge of the calculation domain.
 // status=true if the initial point is already out of the calculation domain.

@@ -38,6 +38,15 @@ int main(int argc, char *argv[]){
 
     M->Image_circular(inc, Nr, Nphi, Rin, Rout, ifsca, false, output_file);
   }
+  else if (job == "one_point"){
+    double inc = pin->GetOrAddReal("camera", "inc", 45.)*PI/180.; // inc in degree
+    double x = pin->GetReal("camera", "x")*AU;
+    double y = pin->GetReal("camera", "y")*AU;
+    double z = pin->GetOrAddReal("camera", "z", 0.0)*AU;
+    bool ifsca = pin->GetOrAddBoolean("model", "ifsca", true);
+
+    M->OnePointImage(inc, x, y, z, ifsca, output_file);
+  }
   else{
     std::cout<<job<<" not supported!"<<std::endl;
   }
