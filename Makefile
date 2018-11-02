@@ -1,12 +1,12 @@
 # Files for conditional compilation
 
-PROBLEM_FILE = IRS.cpp
-DUST_DIR = src/model/spherical_p0
+PROBLEM_FILE = slab.cpp
+DUST_DIR = src/model/electrostatic
 
 # General compiler specifications
 
 CXX := g++
-CXXFLAGS := -O3 -fopenmp
+CXXFLAGS := -O3 -fopenmp -I$(DUST_DIR)
 
 # Preliminary definitions
 
@@ -43,7 +43,7 @@ $(EXECUTABLE) : $(OBJ_FILES)
 
 # Create objects from source files
 
-$(OBJ_DIR)%.o : %.cpp
+$(OBJ_DIR)%.o : %.cpp Makefile
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # Cleanup

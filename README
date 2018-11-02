@@ -37,6 +37,15 @@ suffix cpp is mendatory.
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 Below starts patch notes:
 
+Nov. 2
+- Clean up DUST_DIR related stuffs. (Makefile, model.cpp location)
+
+Nov. 1
+- Add electrostatic approximation dust model.
+- Now extinction = absorption. Need further refinement to get a consistent 
+  extinction matrix in the future.
+- Add OnPointImage function.
+
 Oct. 29
 - move dust related files to a sub-directory spherical_p0 under model. 
   Now Makefile expect modification of DUST_DIR to choose dust model employed.

@@ -6,7 +6,6 @@ double MyDensity(double x, double y, double z);
 double MyBnuT(double x, double y, double z);
 Vector3D MyBfield(double x, double y, double z);
 
-static const double Rmax=100*AU;
 
 model::model(ParameterInput* pin){
   Density_ = MyDensity;
@@ -15,6 +14,12 @@ model::model(ParameterInput* pin){
 
   pdust = new dust(pin);
   kappa_ext = pin->GetReal("dust", "kappa_ext");
+
+  tiny_step = pin->GetOrAddReal("scheme", "tiny_step", 0.1)*AU;
+  dtau = pin->GetOrAddReal("scheme", "dtau", 0.1);
+  Nphi = pin->GetOrAddInteger("scheme", "Nphi", 16);
+  Ntheta = pin->GetOrAddInteger("scheme", "Nphi", 16);
+  dOmega = 2./Ntheta*2.*PI/Nphi;
 
   init_user_model(pin);
 }
@@ -40,4 +45,7 @@ Vector3D __attribute__((weak)) MyBfield(double x, double y, double z){
   return B;
 }
 
-bool __attribute__((weak)) model::reachBoundary(double x, double y, double z){return x*x+y*y+z*z>Rmax*Rmax;}
+bool __attribute__((weak)) model::reachBoundary(double x, double y, double z){
+  const double Rmax=100*AU;
+  return x*x+y*y+z*z>Rmax*Rmax;
+}

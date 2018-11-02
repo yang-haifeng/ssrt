@@ -10,9 +10,14 @@
 class dust;
 
 class model{
+  private:
+    double tiny_step, dtau;
+    double kappa_ext; // This is only a representative kappa_ext for truncation in Integrate.
+    int Nphi, Ntheta;
+    double dOmega;
+
   public:
     dust * pdust;
-    double kappa_ext; // This is only a representative kappa_ext for truncation in Integrate.
 
     explicit model(ParameterInput* pin);
     ~model();
@@ -32,6 +37,7 @@ class model{
     bool getSurface(double &x, double &y, double &z, double nx, double ny, double nz);
     //void Image_circular(double inc, int Nr, int Nph, double Rin, double Rout, bool ifsca=true, bool fAppend=false, std::string fname="image.out");
     void Image_circular(double inc, int Nr, int Nph, double Rin, double Rout, bool ifsca=true, bool fAppend=false, std::string fname="image.out");
+    void OnePointImage(double inc, double x0, double y0, double z0, bool ifsca=true, std::string fName="image.out");
 
     void init_user_model(ParameterInput* pin);
 };

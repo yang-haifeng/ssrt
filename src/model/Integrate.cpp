@@ -3,11 +3,6 @@
 #include <fstream>
 
 inline void initT(Matrix& T);
-static const double dtau = 0.1;
-static const double tiny_step = 0.5*AU;
-static const int Nphi = 16;
-static const int Ntheta = 16;
-static const double dOmega = 2./Ntheta*2.*PI/Nphi;
 
 Vector model::Integrate(double x0, double y0, double z0, double nx, double ny, double nz, bool ScaFlag){
   Matrix T; initT(T);
@@ -45,7 +40,10 @@ Vector model::Integrate(double x0, double y0, double z0, double nx, double ny, d
         }
       }
     }
-    result += T*(Sabs+Ssca)*step*rho;
+  //if (ScaFlag)
+  //  result += T*Ssca*step*rho;
+  //else
+      result += T*(Sabs+Ssca)*step*rho;
     T -= T*Mext*step*rho;
     x-=step*nx; y-=step*ny; z-=step*nz;
   }
