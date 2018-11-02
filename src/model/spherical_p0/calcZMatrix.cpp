@@ -53,10 +53,10 @@ Matrix model::calcZMatrix(double x, double y, double z,
     double a[3][3];
     a[0][0] = a1+ (a3-a1) * cos(phiB)*cos(phiB)*sin(thetaB)*sin(thetaB);
     a[0][1] = (a3-a1) * sin(phiB)*cos(phiB)*sin(thetaB)*sin(thetaB);
-    a[0][2] = (a3-a1) * cos(thetaB)*sin(thetaB)*cos(thetaB);
+    a[0][2] = (a3-a1) * cos(phiB)*sin(thetaB)*cos(thetaB);
     a[1][0] = a[0][1];
     a[1][1] = a1+ (a3-a1)*sin(phiB)*sin(phiB)*sin(thetaB)*sin(thetaB);
-    a[1][2] = (a3-a1) * sin(thetaB)*sin(thetaB)*cos(thetaB);
+    a[1][2] = (a3-a1) * sin(phiB)*sin(thetaB)*cos(thetaB);
     a[2][0] = a[0][2];
     a[2][1] = a[1][2];
     a[2][2] = a1 + (a3-a1)*cos(thetaB)*cos(thetaB);
