@@ -1,0 +1,23 @@
+<job>
+job = circular_image
+output_file = image.out
+
+<camera>
+inc       = 45
+Nr        = 20
+Nphi      = 9
+Rin       = 1
+Rout      = 99
+
+<model>
+ifsca     = 1
+Bflag     = 0
+kappa_ext = 0.01
+
+<dust>
+eps_real     = 11.584
+eps_imag     = 4.044e-1
+aspect_ratio = 1.5
+grain_size   = 70.
+wavelength   = 870.
+density      = 3.0
