@@ -18,7 +18,7 @@ model::model(ParameterInput* pin){
   tiny_step = pin->GetOrAddReal("scheme", "tiny_step", 0.1)*AU;
   dtau = pin->GetOrAddReal("scheme", "dtau", 0.1);
   Nphi = pin->GetOrAddInteger("scheme", "Nphi", 16);
-  Ntheta = pin->GetOrAddInteger("scheme", "Nphi", 16);
+  Ntheta = pin->GetOrAddInteger("scheme", "Ntheta", 16);
   dOmega = 2./Ntheta*2.*PI/Nphi;
 
   init_user_model(pin);

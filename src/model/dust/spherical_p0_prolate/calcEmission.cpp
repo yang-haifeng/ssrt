@@ -1,4 +1,3 @@
-#include <iostream>
 #include "../../model.h"
 #include "dust.h"
 
@@ -28,24 +27,25 @@ Vector model::calcEmission(double x, double y, double z, double nx, double ny, d
   et[0] = cos(theta)*cos(phi); et[1]=cos(theta)*sin(phi); et[2]=-sin(theta);
   ep[0] = -sin(phi);           ep[1]=cos(phi);            ep[2]=0;
   double e1[3]; //double e2[3];
-  e1[0] = By*nz-Bz*ny;
-  e1[1] = Bz*nx-Bx*nz;
-  e1[2] = Bx*ny-By*nx;
+  e1[0] = Bx - Bx*nx;
+  e1[1] = By - By*ny;
+  e1[2] = Bz - Bz*nz;
+  double e1sq = e1[0]*e1[0]+e1[1]*e1[1]+e1[2]*e1[2];
+  e1[0] /= sqrt(e1sq); e1[1] /= sqrt(e1sq); e1[2] /= sqrt(e1sq); 
+
+  //double tP0=P0; P0=0.;
+  double kappa_abs = pdust->kappa_abs;
+  double P0 = pdust->p0;
 
   double cosga = e1[0]*et[0]+e1[1]*et[1]+e1[2]*et[2];
   double singa = e1[0]*ep[0]+e1[1]*ep[1]+e1[2]*ep[2];
   Vector S; double bnuT = BnuT_(x,y,z);
-  std::complex<double> a1, a3; a1=pdust->a1; a3=pdust->a3;
-  S[0] = std::imag( a1 + 0.5*(a3-a1)*(1-cosinc*cosinc) );
-  S[1] = std::imag( 0.5*(a1-a3)*(1-cosinc*cosinc) ) *(cosga*cosga - singa*singa);
-  S[2] = std::imag( 0.5*(a1-a3)*(1-cosinc*cosinc) ) *2*cosga*singa;
+  S[0] = bnuT*kappa_abs*(1 + P0*cosinc*cosinc)/(1.+P0);
+  S[1] = bnuT*kappa_abs*P0*(1-cosinc*cosinc)/(1+P0)*(cosga*cosga - singa*singa);
+  S[2] = bnuT*kappa_abs*P0*(1-cosinc*cosinc)/(1+P0)*2*cosga*singa;
   S[3] = 0.;
-//S[0] = std::imag( 2./3*a1 + 1./3*a3 );
-//S[1] = 0.; S[2] = 0.; S[3] = 0.;
 
-  S = S* bnuT * 4*PI*pdust->k / pdust->mass;
-
-  //std::cout<<S[0]/bnuT<<std::endl;
+  //P0 = tP0;
 
   return S;
 }

@@ -1,3 +1,4 @@
+#include <iostream>
 #include "../../model.h"
 #include "dust.h"
 
@@ -86,9 +87,11 @@ Matrix model::calcZMatrix(double x, double y, double z,
   M[3*4+3] = real(S22*conj(S11) - S12*conj(S21));
 }
 
-  double k6 = pow(2*PI/pdust->lambda, 6);
-  double mass = 4./3*PI*pow(pdust->re, 3)*pdust->rho;
-  M *= k6/mass;
+  //double k6 = pow(2*PI/pdust->lambda, 6);
+  //double mass = 4./3*PI*pow(pdust->re, 3)*pdust->rho;
+  M *= pdust->k6/pdust->mass;
+
+  //std::cout<<M[0]<<std::endl;
 
   return M;
 }

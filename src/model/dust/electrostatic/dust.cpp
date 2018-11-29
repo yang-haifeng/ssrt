@@ -1,3 +1,4 @@
+#include <iostream>
 #include "dust.h"
 #include <cmath>
 
@@ -9,9 +10,9 @@ dust::dust(ParameterInput* pin){
   eps_imag = pin->GetReal("dust", "eps_imag");
   s = pin->GetReal("dust", "aspect_ratio");
 
-  re = pin->GetReal("dust", "grain_size");
-  lambda = pin->GetReal("dust", "wavelength");
-  rho = pin->GetReal("dust", "density");
+  re = pin->GetReal("dust", "grain_size")/1e4;     // in micron
+  lambda = pin->GetReal("dust", "wavelength")/1e4; // in micron
+  rho = pin->GetReal("dust", "density");           // in g/cm^3
 
   eps = std::complex<double> (eps_real, eps_imag);
   
@@ -23,7 +24,9 @@ dust::dust(ParameterInput* pin){
 
   mass = (4*PI/3.)*pow(re,3)*rho;
   k    = 2*PI/lambda;
-  k6   = pow(k,6);
+  k6   = pow(k,4);
+
+  //std::cout<<mass<<'\t'<<k<<std::endl;
 }
 
 dust::~dust(){return;}

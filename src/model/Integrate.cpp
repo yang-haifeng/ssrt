@@ -30,7 +30,7 @@ Vector model::Integrate(double x0, double y0, double z0, double nx, double ny, d
     for (int i=0; i<4; i++) Ssca[i]=0.;
     if (ScaFlag){
       for (int i=0; i<Ntheta; i++){
-	double cost = 2./Ntheta*i-1;
+	double cost = 2./Ntheta*(i+0.5)-1;
 	double sint = sqrt(1-cost*cost);
         for (int j=0; j<Nphi; j++){
           double phi = 2*PI/Nphi*j;
@@ -40,10 +40,7 @@ Vector model::Integrate(double x0, double y0, double z0, double nx, double ny, d
         }
       }
     }
-    if (ScaFlag)
-      result += T*Ssca*step*rho;
-    else
-      result += T*(Sabs+Ssca)*step*rho;
+    result += T*(Sabs+Ssca)*step*rho;
     T -= T*Mext*step*rho;
     x-=step*nx; y-=step*ny; z-=step*nz;
   }
