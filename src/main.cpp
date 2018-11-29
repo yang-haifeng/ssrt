@@ -13,8 +13,8 @@ int main(int argc, char *argv[]){
     pin->LoadFromFile(parfile);
   }
   else{
-    std::cout<<"ERROR: Input file needed!"<<std::endl;
-    std::cout<<"usage: ssrt input.par"<<std::endl;
+    std::cout<<"No Input file. Showing the configuration. "<<std::endl;
+    show_config();
     exit(0);
   }
 

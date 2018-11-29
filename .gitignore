@@ -3,3 +3,4 @@ obj/*
 test/*
 *.swp
 Makefile
+src/defs.h
