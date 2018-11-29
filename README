@@ -37,8 +37,12 @@ suffix cpp is mendatory.
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 Below starts patch notes:
 
+Nov. 29
+- Add show_config option. Executed when in case of no InputFile.
+
 Nov. 2
 - Clean up DUST_DIR related stuffs. (Makefile, model.cpp location)
+- configure.py script 
 
 Nov. 1
 - Add electrostatic approximation dust model.

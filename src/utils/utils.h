@@ -1,7 +1,8 @@
 #ifndef _UTILS_H
 #define _UTILS_H
 
-#include "math.h"
+#include "../defs.h"
+#include <cmath>
 #include <array>
 
 #define Matrix std::array <double, 16>
@@ -23,5 +24,9 @@ Matrix& operator-=(Matrix& lhs, const Matrix rhs);
 
 typedef double (*FieldFunction_)(double x, double y, double z);
 typedef Vector3D (*VectorFieldFunction_)(double x, double y, double z);
+
+double bnuT(double nu, double T);
+
+void show_config();
 
 #endif

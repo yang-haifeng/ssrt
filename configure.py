@@ -21,8 +21,8 @@ import re
 # Set template and output filenames
 makefile_input = 'Makefile.in'
 makefile_output = 'Makefile'
-defsfile_input = 'src/defs.hpp.in'
-defsfile_output = 'src/defs.hpp'
+defsfile_input = 'src/defs.h.in'
+defsfile_output = 'src/defs.h'
 
 # --- Step 1. Prepare parser, add each of the arguments ------------------
 parser = argparse.ArgumentParser()
@@ -39,9 +39,15 @@ parser.add_argument('--model',
                     help='select user-defined model')
 
 # --dust=[name] argument
+dust_model_directory = 'src/model/dust/'
+# set pgen_choices to list of .cpp files in src/pgen/
+dust_model_choices = glob.glob(dust_model_directory + '*')
+# remove 'src/user_models/' prefix and '.cpp' extension from each filename
+dust_model_choices = [choice[len(dust_model_directory):] for choice in dust_model_choices]
 parser.add_argument('--dust',
                     default='electrostatic',
-                    choices=['electrostatic', 'spherical_p0'],
+                    #choices=['electrostatic', 'spherical_p0'],
+                    choices=dust_model_choices,
                     help='select dust module')
 
 # -noomp argument
@@ -92,20 +98,20 @@ definitions['COMPILER_FLAGS'] = ' '.join(
 makefile_options['PROBLEM_FILE'] += '.cpp'
 
 # Read templates
-#with open(defsfile_input, 'r') as current_file:
-#    defsfile_template = current_file.read()
+with open(defsfile_input, 'r') as current_file:
+    defsfile_template = current_file.read()
 with open(makefile_input, 'r') as current_file:
     makefile_template = current_file.read()
 
 # Make substitutions
-#for key, val in definitions.items():
-#    defsfile_template = re.sub(r'@{0}@'.format(key), val, defsfile_template)
+for key, val in definitions.items():
+    defsfile_template = re.sub(r'@{0}@'.format(key), val, defsfile_template)
 for key, val in makefile_options.items():
     makefile_template = re.sub(r'@{0}@'.format(key), val, makefile_template)
 
 # Write output files
-#with open(defsfile_output, 'w') as current_file:
-#    current_file.write(defsfile_template)
+with open(defsfile_output, 'w') as current_file:
+    current_file.write(defsfile_template)
 with open(makefile_output, 'w') as current_file:
     current_file.write(makefile_template)
 

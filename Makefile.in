@@ -16,6 +16,7 @@ SRC_FILES := $(wildcard src/*.cpp) \
              $(wildcard src/model/*.cpp) \
              $(wildcard $(DUST_DIR)/*.cpp) \
              $(wildcard src/io/*.cpp) \
+             $(wildcard src/utils/*.cpp) \
              src/user_models/$(PROBLEM_FILE)
 OBJ_DIR := obj/
 OBJ_FILES := $(addprefix $(OBJ_DIR),$(notdir $(SRC_FILES:.cpp=.o)))
