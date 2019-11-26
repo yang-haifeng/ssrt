@@ -13,10 +13,10 @@ Vector model::calcEmission(double x, double y, double z, double nx, double ny, d
   double B = sqrt(Bx*Bx+By*By+Bz*Bz);
   Bx/=B; By/=B; Bz/=B; // Normalize B field first.
 
-//double phi0 = atan2(y,x); // Rotate B field by phi0, the location of the point;
-//double tBx, tBy;
-//tBx = Bx*cos(phi0)-By*sin(phi0); tBy = Bx*sin(phi0)+By*cos(phi0);
-//Bx = tBx; By=tBy;
+  //double phi0 = atan2(y,x); // Rotate B field by phi0, the location of the point;
+  //double tBx, tBy;
+  //tBx = Bx*cos(phi0)-By*sin(phi0); tBy = Bx*sin(phi0)+By*cos(phi0);
+  //Bx = tBx; By=tBy;
 
   double cosinc; // inclination angle with respect to B field
   cosinc = fabs(Bx*nx+By*ny+Bz*nz); 

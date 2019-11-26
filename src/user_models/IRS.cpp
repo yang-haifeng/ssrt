@@ -5,6 +5,8 @@
 static const double Rmax = 100*AU;
 static int Bflag;
 static double nu;
+static double Fsettle=0.1;
+static double shrink=0.5;
 
 double MyDensity(double x, double y, double z);
 Vector3D MyBfield(double x, double y, double z);
@@ -43,8 +45,7 @@ Vector3D MyBfield(double x, double y, double z){
 
 double MyDensity(double x, double y, double z){
   double R = sqrt(x*x+y*y);
-  double Sigma0 = 0.18387776826;
-  double Fsettle = 0.01;
+  double Sigma0 = 0.18387776826*shrink;
   double H = 0.17*R*pow((R/Rmax),0.17)*Fsettle;
 
   double rho = Sigma0 / (R/Rmax)/sqrt(2*PI)/H*exp(-0.5*(z*z/H/H));
@@ -58,7 +59,7 @@ double MyDensity(double x, double y, double z){
 
 double MyBnuT(double x, double y, double z){
   double R = sqrt(x*x+y*y);
-  double T = 20. * pow((R/Rmax), (-0.33));
+  double T = 40. * pow((R/Rmax), (-0.33))/shrink;
 
   double result = bnuT(nu, T);
   //std::cout<<R/AU<<'\t'<<T<<'\t'<<result<<std::endl;

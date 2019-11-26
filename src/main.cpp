@@ -47,26 +47,17 @@ int main(int argc, char *argv[]){
 
     M->OnePointImage(inc, x, y, z, ifsca, output_file);
   }
+  else if (job == "square_image"){
+    double inc = pin->GetOrAddReal("camera", "inc", 45.)*PI/180.; // inc in degree
+    int Npix = pin->GetOrAddInteger("camera", "Npix", 100);
+    double FoV = pin->GetOrAddReal("camera", "FoV", 200)*AU; // Field of view in AU
+    bool ifsca = pin->GetOrAddBoolean("model", "ifsca", true);
+
+    M->Image(inc, Npix, ifsca, FoV, output_file);
+  }
   else{
     std::cout<<job<<" not supported!"<<std::endl;
   }
-
-//std::ifstream Fin;
-//Fin.open("xyz.dat", std::ios::binary);
-//double temp;
-//Fin.read(reinterpret_cast<char*>(&temp), sizeof(double));
-//double x = temp;
-//Fin.read(reinterpret_cast<char*>(&temp), sizeof(double));
-//double  y = temp;
-//Fin.read(reinterpret_cast<char*>(&temp), sizeof(double));
-//double z = temp;
-//Fin.read(reinterpret_cast<char*>(&temp), sizeof(double));
-//double  nx1 = temp;
-//Fin.read(reinterpret_cast<char*>(&temp), sizeof(double));
-//double  ny1 = temp;
-//Fin.read(reinterpret_cast<char*>(&temp), sizeof(double));
-//double  nz1 = temp;
-//M->Integrate(x, y, z, nx1, ny1, nz1, false);
 
   delete pin;
 }

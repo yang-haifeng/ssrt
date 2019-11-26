@@ -17,3 +17,4 @@ Bflag     = 0
 kappa_ext = 1
 albedo    = 0.1
 p0        = 0.0
+wavelength = 870.

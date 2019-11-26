@@ -9,10 +9,10 @@ Matrix model::calcExtinction(double x, double y, double z, double nx, double ny,
   double B = sqrt(Bx*Bx+By*By+Bz*Bz);
   Bx/=B; By/=B; Bz/=B; // Normalize B field first.
 
-//double phi0 = atan2(y,x); // Rotate B field by phi0, the location of the point;
-//double tBx, tBy;
-//tBx = Bx*cos(phi0)-By*sin(phi0); tBy = Bx*sin(phi0)+By*cos(phi0);
-//Bx = tBx; By=tBy;
+  //double phi0 = atan2(y,x); // Rotate B field by phi0, the location of the point;
+  //double tBx, tBy;
+  //tBx = Bx*cos(phi0)-By*sin(phi0); tBy = Bx*sin(phi0)+By*cos(phi0);
+  //Bx = tBx; By=tBy;
 
   double cosinc; // inclination angle with respect to B field
   cosinc = fabs(Bx*nx+By*ny+Bz*nz); 
@@ -20,8 +20,8 @@ Matrix model::calcExtinction(double x, double y, double z, double nx, double ny,
   double kappa_ext = pdust->kappa_ext;
   double P0 = pdust->p0;
 
-//double Cep = kappa_ext;
-//double Cpp = 0;
+  //double Cep = kappa_ext;
+  //double Cpp = 0;
   double Cep = kappa_ext + kappa_ext*P0*cosinc*cosinc;
   double Cpp = kappa_ext * P0 * (1-cosinc*cosinc);
   double Ccpp = 0;

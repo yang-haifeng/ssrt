@@ -20,9 +20,12 @@ Matrix model::calcExtinction(double x, double y, double z, double nx, double ny,
   std::complex<double> a1, a3; a1=pdust->a1; a3=pdust->a3;
 //double Cep = kappa_ext;
 //double Cpp = 0;
-  double Cep = std::imag(a1+0.5*(a3-a1)*(1-cosinc*cosinc))* 4*PI*pdust->k / pdust->mass;
-  double Cpp = std::imag( 0.5*(a1-a3)*(1-cosinc*cosinc) ) * 4*PI*pdust->k / pdust->mass;
-  double Ccpp = 0;
+  double s1 = pdust->sig_a1+pdust->sig_s1;
+  double s2 = pdust->sig_a2+pdust->sig_s2;
+  double Cep = (s1+0.5*(s2-s1)*(1-cosinc*cosinc));
+  double Cpp = 0.5*(s1-s2)*(1-cosinc*cosinc);
+  //double Cpp = std::imag( 0.5*(s1-s2)*(1-cosinc*cosinc) ) * 4*PI*pdust->k / pdust->mass;
+  double Ccpp = 0; // for now.
 
   double theta, phi;
   theta = acos(nz); phi = atan2(ny, nx);

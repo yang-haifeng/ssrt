@@ -13,34 +13,47 @@ void model::Image(double inc, int Npix, bool ifsca, double FoV, std::string fNam
   Fout.open(fName.c_str());
 
   double nx=sin(inc), ny=0, nz=cos(inc);
-  double dx, dy, dz; 
-  dy=FoV/(Npix-1);
-  dx=dy*cos(inc);
-  dz=-dy*sin(inc);
-  double x0, y0, z0;
-  y0 = -FoV/2.;
-  x0 = y0*cos(inc);
-  z0 = -y0*sin(inc);
-  double x,y,z;
-  Vector S;
-  bool status;
+  double dpix; 
+  dpix = FoV/(Npix-1);
   int Ncount=0; 
+
+  Fout<<Npix<<std::endl;
+  Fout<<inc<<std::endl;
+  Fout<<"#x(AU)\ty(AU)\tI\tQ\tU\tV"<<std::endl;
+
+  double mx[Npix][Npix], my[Npix][Npix];
+  double mS0[Npix][Npix], mS1[Npix][Npix], mS2[Npix][Npix], mS3[Npix][Npix];
+  #pragma omp parallel for
   for (int i=0; i<Npix; i++){
+    double x,y,z;
+    bool status;
+    Vector S;
     for (int j=0; j<Npix; j++){
-      progressBar(Ncount, Npix*Npix); Ncount++;
-      x=x0+i*dx; y=y0+j*dy; z=z0+i*dz;
+      progressBar(Ncount, Npix*Npix); 
+      Ncount++;
+      //x=x0+i*dx; y=y0+j*dy; z=z0+i*dz;
+      x=(-FoV/2.+i*dpix)*cos(inc); y=-FoV/2.+j*dpix; z=(-FoV/2.+i*dpix)*sin(inc);
+      mx[i][j] = -FoV/2.+i*dpix; my[i][j] = -FoV/2.+j*dpix;
+      //std::cout<<x/AU<<" "<<y/AU<<" "<<z/AU<<std::endl;
 
       status = getSurface(x, y, z, nx, ny, nz);
-      if (!status) { //status==true means the point is out of the domain.
-        Fout<<0.<<" "<<0.<<" "<<0.<<" "<<0.<<std::endl; // write all 0 here.
-	continue; // Move on to the next point.
+      if (!status) { //status==false means the point is out of the domain.
+        mS0[i][j]=0.; mS1[i][j]=0.; mS2[i][j]=0.; mS3[i][j]=0.; 
+        //std::cout<<"out of domain! "<<x/AU<<" "<<y/AU<<" "<<z/AU<<" "<<Ncount<<std::endl;
+	      continue; // Move on to the next point.
       }
 
       S = this->Integrate(x,y,z, nx,ny,nz, ifsca);
 
-      Fout<<S[0]<<" "<<S[1]<<" "<<S[2]<<" "<<S[3]<<std::endl;
+      mS0[i][j]=S[0]; mS1[i][j]=S[1]; mS2[i][j]=S[2]; mS3[i][j]=S[3]; 
     }
   }
+
+  for (int i=0; i<Npix; i++){
+  for (int j=0; j<Npix; j++){
+    Fout<<mx[i][j]/AU<<" "<<my[i][j]/AU<<" "
+        <<mS0[i][j]<<" "<<mS1[i][j]<<" "<<mS2[i][j]<<" "<<mS3[i][j]<<std::endl;
+  }}
   Fout.close();
 }
 
@@ -123,9 +136,9 @@ void model::OnePointImage(double inc, double x0, double y0, double z0, bool ifsc
 bool model::getSurface(double &x, double &y, double &z, double nx, double ny, double nz){
   if (reachBoundary(x,y,z)) return false;
   while ( !reachBoundary(x,y,z) ){
-    x += nx*AU; y += ny*AU; z += nz*AU;
+    x += nx*0.001*AU; y += ny*0.001*AU; z += nz*0.001*AU;
   }
-  x-=nx*AU; y-=ny*AU; z-=nz*AU;
+  x-=nx*0.001*AU; y-=ny*0.001*AU; z-=nz*0.001*AU;
   return true;
 }
 

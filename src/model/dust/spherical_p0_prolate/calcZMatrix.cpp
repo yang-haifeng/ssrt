@@ -58,7 +58,7 @@ Matrix model::calcZMatrix(double x, double y, double z,
   M[3*4+2] = 0.;
   M[3*4+3] = (S22*S11 - S12*S21);
 
-  M *= 3./8.*PI*pdust->kappa_sca;
+  M *= 3./8./PI*pdust->kappa_sca;
 
   return M;
 }

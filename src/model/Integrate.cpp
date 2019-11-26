@@ -24,19 +24,19 @@ Vector model::Integrate(double x0, double y0, double z0, double nx, double ny, d
       continue;
     }
     tau += step*kappa_ext*rho;
-    if (tau>20) break;
+    if (tau>100) break;
     Sabs = calcEmission(x,y,z,nx,ny,nz);
     Mext = calcExtinction(x,y,z,nx,ny,nz);
     for (int i=0; i<4; i++) Ssca[i]=0.;
     if (ScaFlag){
       for (int i=0; i<Ntheta; i++){
-	double cost = 2./Ntheta*(i+0.5)-1;
-	double sint = sqrt(1-cost*cost);
+	      double cost = 2./Ntheta*(i+0.5)-1;
+	      double sint = sqrt(1-cost*cost);
         for (int j=0; j<Nphi; j++){
           double phi = 2*PI/Nphi*j;
           double nx1=sint*cos(phi), ny1=sint*sin(phi), nz1=cost;
           Sin = Integrate(x, y, z, nx1, ny1, nz1, false);
-	  Ssca += calcZMatrix(x,y,z,nx1,ny1,nz1,nx,ny,nz) * Sin * dOmega;
+	        Ssca += calcZMatrix(x,y,z,nx1,ny1,nz1,nx,ny,nz) * Sin * dOmega;
         }
       }
     }

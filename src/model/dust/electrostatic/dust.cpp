@@ -2,6 +2,7 @@
 #include "dust.h"
 #include <cmath>
 
+static int ifprint;
 void GeometricPars(double s, double & L1, double & L3);
 
 dust::dust(ParameterInput* pin){
@@ -14,6 +15,8 @@ dust::dust(ParameterInput* pin){
   lambda = pin->GetReal("dust", "wavelength")/1e4; // in micron
   rho = pin->GetReal("dust", "density");           // in g/cm^3
 
+  ifprint = pin->GetOrAddInteger("dust", "ifprint", 0);
+
   eps = std::complex<double> (eps_real, eps_imag);
   
   double L1, L3;
@@ -24,7 +27,34 @@ dust::dust(ParameterInput* pin){
 
   mass = (4*PI/3.)*pow(re,3)*rho;
   k    = 2*PI/lambda;
-  k6   = pow(k,4);
+  k6   = pow(k,6);
+
+  sig_a1 = std::imag(a1) * 4*PI*k/mass;
+  sig_a2 = std::imag(a3) * 4*PI*k/mass;
+  sig_s1 = 8*PI*pow(k,4)/3.*std::norm(a1)/mass;
+  sig_s2 = 8*PI*pow(k,4)/3.*std::norm(a3)/mass;
+
+  if (ifprint>0){
+    if (ifprint>1){
+      std::cout<<"Printing information for dust grain in use:"<<std::endl;
+      std::cout<<"eps = "<<eps_real<<" + j*"<<eps_imag<<std::endl;
+      std::cout<<"aspect_ratio = "<<s;
+      if (s>1) std::cout<<" (oblate)"<<std::endl;
+      else if (s<1) std::cout<<" (prolate)"<<std::endl;
+      else std::cout<<" (spherical)"<<std::endl;
+      std::cout<<"Effective grain size = "<<re<<" (cm)"<<std::endl;
+      std::cout<<"Wavelength = "<<lambda<<" (cm)"<<std::endl;
+      std::cout<<"Density = "<<rho<<" (g/cm^3)"<<std::endl;
+    }
+    std::cout<<"Size parameter = "<<2*PI*re/lambda<<std::endl;
+    std::cout<<"Absorption opacity (1, 2, ave) = "<<sig_a1<<", "<<sig_a2<<", "
+             <<0.5*(sig_a1+sig_a2)<<std::endl;
+    std::cout<<"Scattering opacity (1, 2, ave) = "<<sig_s1<<", "<<sig_s2<<", "
+             <<0.5*(sig_s1+sig_s2)<<std::endl;
+    std::cout<<"Extinction opacity (1, 2, ave) = "<<sig_a1+sig_s1<<", "<<sig_a2+sig_s2
+             <<", "<<0.5*(sig_a1+sig_s1+sig_a2+sig_s2)<<std::endl;
+    std::cout<<"Albedo = "<<(sig_s1+sig_s2)/(sig_a1+sig_s1+sig_a2+sig_s2)<<std::endl;
+  }
 
   //std::cout<<mass<<'\t'<<k<<std::endl;
 }
